@@ -41,28 +41,214 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
+# ══════════════════════════════════════════════════════════════════════════════
+#  PREMIUM CSS
+# ══════════════════════════════════════════════════════════════════════════════
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap');
-html,body,[class*="css"]{font-family:'JetBrains Mono',monospace;background:#080c14;color:#c8d8f0}
-section[data-testid="stSidebar"]{background:#0a0e1a;border-right:1px solid #1a2a4a}
-section[data-testid="stSidebar"] *{color:#8aaad0 !important}
-.hero{font-family:'Syne',sans-serif;font-size:2.4rem;font-weight:800;color:#4d9fff;letter-spacing:-2px;line-height:1.05}
-.sub{font-size:.72rem;color:#2a4a7a;letter-spacing:4px;text-transform:uppercase;margin-top:6px}
-.cam-card{background:#0d1520;border:1px solid #1a2a4a;border-radius:8px;padding:10px;margin-bottom:8px}
-.cam-card.active{border:2px solid #4d9fff !important;box-shadow:0 0 18px #4d9fff33}
-.cam-label{font-family:'Syne',sans-serif;font-size:.82rem;color:#4d9fff;letter-spacing:2px;margin-bottom:4px}
-.cam-url{font-size:.62rem;color:#2a4a7a;word-break:break-all}
-.chip{display:inline-block;background:#0d1a30;border:1px solid #1a3060;border-radius:4px;padding:3px 10px;font-size:.68rem;color:#4d9fff;letter-spacing:2px;margin-right:6px}
-.chip.g{color:#4dff88;border-color:#1a4030;background:#0d1a20}
-.chip.r{color:#ff6060;border-color:#401a1a;background:#1a0d0d}
-.chip.y{color:#ffcc44;border-color:#403010;background:#1a1400}
-.det-row{background:#0d1520;border-left:3px solid #4d9fff;border-radius:4px;padding:8px 12px;margin-bottom:6px;font-size:.78rem}
-.det-row .lbl{color:#4d9fff;font-family:'Syne',sans-serif}
-.det-row .pct{color:#2a4a7a;float:right}
-div.stButton>button{background:#4d9fff;color:#080c14;border:none;border-radius:4px;font-family:'Syne',sans-serif;font-weight:700;padding:.5rem 1.1rem;transition:all .2s}
-div.stButton>button:hover{background:#80c8ff;box-shadow:0 0 14px #4d9fff55}
-#MainMenu,footer{visibility:hidden}
+
+/* ── Base ── */
+html, body, [class*="css"] {
+    font-family: 'JetBrains Mono', monospace;
+    background: #050810;
+    color: #c8d8f0;
+}
+
+/* ── Sidebar ── */
+section[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #070b18 0%, #050810 100%);
+    border-right: 1px solid rgba(77,159,255,0.12);
+}
+section[data-testid="stSidebar"] * { color: #7a9ac0 !important; }
+
+/* ── Animated gradient hero ── */
+@keyframes gradShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+.hero {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 800;
+    letter-spacing: -2px;
+    line-height: 1.05;
+    background: linear-gradient(270deg, #4d9fff, #a78bfa, #38bdf8, #4dff88);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradShift 6s ease infinite;
+}
+.sub {
+    font-size: .7rem;
+    color: #2a4a7a;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-top: 6px;
+}
+
+/* ── Glassmorphism camera cards ── */
+.cam-card {
+    background: rgba(13, 21, 32, 0.75);
+    border: 1px solid rgba(77, 159, 255, 0.13);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 8px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all .25s ease;
+}
+.cam-card:hover {
+    border-color: rgba(77, 159, 255, 0.35);
+    box-shadow: 0 0 22px rgba(77, 159, 255, 0.1);
+    transform: translateY(-1px);
+}
+
+/* ── Active card — pulsing glow border ── */
+@keyframes borderPulse {
+    0%, 100% { box-shadow: 0 0 12px rgba(77,159,255,0.35); }
+    50%       { box-shadow: 0 0 30px rgba(77,159,255,0.75); }
+}
+.cam-card.active {
+    border: 1.5px solid #4d9fff !important;
+    animation: borderPulse 2s ease-in-out infinite;
+}
+.cam-label {
+    font-family: 'Syne', sans-serif;
+    font-size: .82rem;
+    color: #4d9fff;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+}
+.cam-url { font-size: .6rem; color: #2a4a7a; word-break: break-all; }
+
+/* ── Live pulse dot ── */
+@keyframes livePulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: .35; transform: scale(1.5); }
+}
+.live-dot {
+    display: inline-block;
+    width: 7px; height: 7px;
+    background: #4dff88;
+    border-radius: 50%;
+    margin-right: 5px;
+    animation: livePulse 1.4s ease-in-out infinite;
+    vertical-align: middle;
+}
+.off-dot {
+    display: inline-block;
+    width: 7px; height: 7px;
+    background: #ff4d4d;
+    border-radius: 50%;
+    margin-right: 5px;
+    opacity: .45;
+    vertical-align: middle;
+}
+
+/* ── Pill chips ── */
+.chip {
+    display: inline-block;
+    background: rgba(13, 26, 48, 0.85);
+    border: 1px solid rgba(26, 48, 96, 0.8);
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: .66rem;
+    color: #4d9fff;
+    letter-spacing: 1.5px;
+    margin-right: 5px;
+    backdrop-filter: blur(4px);
+}
+.chip.g { color: #4dff88; border-color: rgba(26,64,48,.8); background: rgba(13,26,32,.85); }
+.chip.r { color: #ff6060; border-color: rgba(64,26,26,.8); background: rgba(26,13,13,.85); }
+.chip.y { color: #ffcc44; border-color: rgba(64,48,16,.8); background: rgba(26,20,0,.85); }
+
+/* ── Detection rows ── */
+.det-row {
+    background: linear-gradient(135deg, rgba(13,21,32,.9), rgba(8,12,20,.9));
+    border-left: 3px solid #4d9fff;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 7px;
+    font-size: .78rem;
+    transition: transform .15s;
+}
+.det-row:hover { transform: translateX(3px); }
+.det-row .lbl { color: #4d9fff; font-family: 'Syne', sans-serif; font-size: .82rem; }
+.det-row .pct { color: #2a5a7a; float: right; font-size: .72rem; }
+
+/* ── Gradient confidence bar ── */
+.conf-bar {
+    height: 3px;
+    border-radius: 2px;
+    margin-top: 6px;
+    background: linear-gradient(90deg, #4d9fff, #4dff88);
+}
+
+/* ── Buttons ── */
+div.stButton > button {
+    background: linear-gradient(135deg, #1a4080, #0d2a60);
+    color: #4d9fff;
+    border: 1px solid rgba(77, 159, 255, .35);
+    border-radius: 8px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: .5rem 1.1rem;
+    transition: all .2s;
+}
+div.stButton > button:hover {
+    background: linear-gradient(135deg, #4d9fff, #38bdf8);
+    color: #050810;
+    border-color: #4d9fff;
+    box-shadow: 0 0 22px rgba(77, 159, 255, .45);
+    transform: translateY(-1px);
+}
+
+/* ── Scan-line idle placeholder ── */
+@keyframes scanMove {
+    0%   { background-position: 0 0; }
+    100% { background-position: 0 100px; }
+}
+.idle-box {
+    position: relative;
+    background: #07090f;
+    border: 1px dashed rgba(77, 159, 255, .18);
+    border-radius: 10px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.idle-box::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(77,159,255,.025) 0px,
+        rgba(77,159,255,.025) 1px,
+        transparent 1px,
+        transparent 4px
+    );
+    animation: scanMove 3s linear infinite;
+}
+.idle-text {
+    position: relative;
+    z-index: 1;
+    color: rgba(77, 159, 255, .28);
+    font-size: .85rem;
+    letter-spacing: 4px;
+    font-family: 'Syne', sans-serif;
+    text-align: center;
+}
+
+hr { border-color: rgba(26,42,74,.4) !important; }
+.stImage img { border-radius: 8px; border: 1px solid rgba(26,42,74,.5); }
+#MainMenu, footer { visibility: hidden; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -89,25 +275,8 @@ for k, v in _DEFAULTS.items():
 
 # ══════════════════════════════════════════════════════════════════════════════
 #  PURE-PYTHON MJPEG STREAM READER
-#  Reads the multipart/x-mixed-replace HTTP stream frame by frame.
-#  Works on Streamlit Cloud — zero native dependencies.
 # ══════════════════════════════════════════════════════════════════════════════
 class MJPEGReader:
-    """
-    Reads a live MJPEG stream (e.g. IP Webcam /video endpoint) in a
-    background thread using only Python's stdlib + Pillow.
-
-    Protocol:
-      HTTP response is multipart/x-mixed-replace with boundary markers.
-      Each part looks like:
-        --<boundary>\r\n
-        Content-Type: image/jpeg\r\n
-        Content-Length: <N>\r\n
-        \r\n
-        <N bytes of JPEG data>\r\n
-    """
-
-    # Matches "Content-Length: 12345"
     _CL_RE = re.compile(rb"Content-Length:\s*(\d+)", re.IGNORECASE)
 
     def __init__(self, url: str, timeout: int = 10):
@@ -120,7 +289,6 @@ class MJPEGReader:
         self._stop   = threading.Event()
         threading.Thread(target=self._run, daemon=True).start()
 
-    # ── Background thread ──────────────────────────────────────────────────────
     def _run(self):
         while not self._stop.is_set():
             try:
@@ -131,14 +299,10 @@ class MJPEGReader:
                 time.sleep(2)
 
     def _stream(self):
-        req  = urllib.request.Request(
-            self.url,
-            headers={"User-Agent": "AnimalDetector/1.0"}
-        )
+        req  = urllib.request.Request(self.url, headers={"User-Agent": "AnimalDetector/1.0"})
         resp = urllib.request.urlopen(req, timeout=self.timeout)
-
-        buf     = b""
-        t_last  = time.perf_counter()
+        buf  = b""
+        t_last = time.perf_counter()
 
         while not self._stop.is_set():
             chunk = resp.read(4096)
@@ -150,34 +314,27 @@ class MJPEGReader:
                 m = self._CL_RE.search(buf)
                 if not m:
                     break
-
                 cl = int(m.group(1))
                 header_end = buf.find(b"\r\n\r\n", m.start())
                 if header_end == -1:
                     break
                 data_start = header_end + 4
-
                 if len(buf) < data_start + cl:
                     break
-
                 jpeg_bytes = buf[data_start : data_start + cl]
                 buf        = buf[data_start + cl:]
-
                 try:
                     img = Image.open(BytesIO(jpeg_bytes)).convert("RGB")
                 except Exception:
                     continue
-
-                now    = time.perf_counter()
-                fps    = 1.0 / max(now - t_last, 1e-6)
+                now = time.perf_counter()
+                fps = 1.0 / max(now - t_last, 1e-6)
                 t_last = now
-
                 with self._lock:
                     self.frame = img
                     self.ok    = True
                     self.fps   = fps
 
-    # ── Public API ─────────────────────────────────────────────────────────────
     def read(self) -> tuple[bool, Image.Image | None]:
         with self._lock:
             return self.ok, self.frame.copy() if self.frame else None
@@ -193,8 +350,7 @@ def load_model(name: str):
     return YOLO(name)
 
 # ── PIL bounding-box drawing ───────────────────────────────────────────────────
-def draw_boxes(img: Image.Image, dets: list,
-               show_lbl: bool, show_conf: bool) -> Image.Image:
+def draw_boxes(img: Image.Image, dets: list, show_lbl: bool, show_conf: bool) -> Image.Image:
     out  = img.copy()
     draw = ImageDraw.Draw(out)
     for d in dets:
@@ -235,22 +391,19 @@ def run_detect(model, pil_img, conf, iou, animals_only, show_lbl, show_conf, tra
 with st.sidebar:
     st.markdown("### ⚙️ Settings")
     st.markdown("---")
-
     model_name  = st.selectbox("Model", ["yolo26n.pt","yolo26s.pt","yolo26m.pt","yolo26l.pt"])
     conf_thr    = st.slider("Confidence", 0.10, 0.95, 0.40, 0.05)
     iou_thr     = st.slider("IoU (NMS)",  0.10, 0.95, 0.45, 0.05)
-
     st.markdown("---")
     animals_only = st.toggle("🐾 Animals Only",   True)
     show_lbl     = st.toggle("Show Labels",        True)
     show_conf_v  = st.toggle("Show Confidence",    True)
     enable_track = st.toggle("Enable Tracking",    False)
-
     st.markdown("---")
     st.markdown("### 📷 Camera URLs")
     st.caption(
         "**IP Webcam** (Android) → Start server  \n"
-        "Use `/video` for true live MJPEG stream:  \n"
+        "Use `/video` for live MJPEG stream:  \n"
         "`http://192.168.x.x:8080/video`"
     )
     for i, cam in enumerate(st.session_state.cameras):
@@ -259,11 +412,7 @@ with st.sidebar:
             cam["url"]     = st.text_input("URL",     cam["url"],     key=f"cu{i}")
             cam["enabled"] = st.checkbox("Enabled",   cam["enabled"], key=f"ce{i}")
             base = cam["url"].rsplit("/", 1)[0]
-            st.caption(
-                f"📡 Live stream: `{base}/video`  \n"
-                f"📸 Snapshot:    `{base}/shot.jpg`"
-            )
-
+            st.caption(f"📡 Live: `{base}/video`  \n📸 Snap: `{base}/shot.jpg`")
     st.markdown("---")
     st.markdown("### 💾 Data Collection")
     save_dir  = st.text_input("Save folder", str(DATA_DIR))
@@ -277,13 +426,10 @@ with st.sidebar:
         Path(save_dir).mkdir(exist_ok=True)
         st.session_state.collect_count = 0
         st.success("Cleared.")
-
     st.markdown("---")
     st.markdown(
-        '<div style="font-size:.65rem;color:#1a3060;line-height:2">'
-        'MJPEG stream · Pure Python<br>'
-        'Pillow · urllib · numpy<br>'
-        'No cv2 required ✅'
+        '<div style="font-size:.62rem;color:#1a3060;line-height:2">'
+        'MJPEG · Pure Python<br>Pillow · urllib · numpy<br>No cv2 ✅'
         '</div>', unsafe_allow_html=True)
 
 # ══════════════════════════════════════════════════════════════════════════════
@@ -292,15 +438,12 @@ with st.sidebar:
 h1, h2 = st.columns([3, 1])
 with h1:
     st.markdown('<p class="hero">MULTI-CAM<br>LIVE DETECTOR</p>', unsafe_allow_html=True)
-    st.markdown(
-        '<p class="sub">2-Phone MJPEG Stream · YOLO26 · Pure Python · No cv2</p>',
-        unsafe_allow_html=True)
+    st.markdown('<p class="sub">2-Phone MJPEG Stream · YOLO26 · Pure Python · No cv2</p>', unsafe_allow_html=True)
 with h2:
     n_en = sum(1 for c in st.session_state.cameras if c["enabled"])
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown(
-        f'<span class="chip">{n_en}/2 LIVE</span>'
-        f'<span class="chip g">MJPEG ✅</span>',
+        f'<span class="chip">{n_en}/2 LIVE</span><span class="chip g">MJPEG ✅</span>',
         unsafe_allow_html=True)
 
 st.markdown("---")
@@ -312,12 +455,13 @@ for i, (col, cam) in enumerate(zip(cam_cols, st.session_state.cameras)):
     with col:
         active = st.session_state.active_cam == i
         cls    = "cam-card active" if active else "cam-card"
+        dot    = '<span class="live-dot"></span>' if cam["enabled"] else '<span class="off-dot"></span>'
+        status = "LIVE" if cam["enabled"] else "OFF"
         st.markdown(
             f'<div class="{cls}">'
             f'<div class="cam-label">{"▶ " if active else ""}{cam["name"]}</div>'
             f'<div class="cam-url">{cam["url"]}</div>'
-            f'<div style="color:{"#4dff88" if cam["enabled"] else "#ff4d4d"};font-size:.7rem">'
-            f'{"🟢 LIVE" if cam["enabled"] else "⚫ OFF"}</div>'
+            f'<div style="margin-top:6px;font-size:.7rem">{dot}{status}</div>'
             f'</div>', unsafe_allow_html=True)
         if st.button("Select", key=f"sw{i}", disabled=not cam["enabled"]):
             st.session_state.active_cam = i
@@ -350,8 +494,8 @@ with left_col:
     annot_ph = st.empty()
 with right_col:
     st.markdown("**🐾 Detections**")
-    det_ph  = st.empty()
-    fps_ph  = st.empty()
+    det_ph = st.empty()
+    fps_ph = st.empty()
 
 st.markdown("---")
 st.markdown("**All Feeds**")
@@ -373,7 +517,6 @@ if st.session_state.running:
 
     model = load_model(model_name)
 
-    # Start MJPEG readers for all enabled cameras
     readers: dict[int, MJPEGReader] = {
         i: MJPEGReader(cam["url"])
         for i, cam in enumerate(st.session_state.cameras)
@@ -394,29 +537,25 @@ if st.session_state.running:
 
         ok, pil_img = reader.read()
 
-        # ── No frame yet ──
         if not ok or pil_img is None:
             no_frame_count += 1
             stat_ph.markdown(
-                f'<span class="chip r">❌ {act_cam["name"]} — waiting for stream…</span>'
-                f'<span class="chip y">Check: same WiFi? IP correct? Server running?</span>',
+                f'<span class="chip r">❌ {act_cam["name"]} — waiting…</span>'
+                f'<span class="chip y">Same WiFi? IP correct? Server running?</span>',
                 unsafe_allow_html=True)
             if no_frame_count > 50:
                 st.error(
                     f"**Cannot connect to {act_cam['name']}**  \n\n"
-                    f"URL tried: `{act_cam['url']}`  \n\n"
-                    "**Checklist:**  \n"
-                    "- Phone and PC on same WiFi?  \n"
-                    "- IP Webcam server running on phone?  \n"
-                    "- Try opening the URL in your browser first  \n"
-                    "- Firewall blocking port 8080?"
+                    f"URL: `{act_cam['url']}`  \n\n"
+                    "**Check:**  \n"
+                    "- Same WiFi?  \n- IP Webcam server running?  \n"
+                    "- Open URL in browser first  \n- Firewall on port 8080?"
                 )
             time.sleep(0.2)
             continue
 
         no_frame_count = 0
 
-        # ── Run YOLO ──
         t0 = time.perf_counter()
         annotated, dets = run_detect(
             model, pil_img, conf_thr, iou_thr,
@@ -424,34 +563,31 @@ if st.session_state.running:
         )
         infer_ms = (time.perf_counter() - t0) * 1000
 
-        # ── Display ──
-        orig_ph.image(pil_img,    caption="Original",  use_container_width=True)
-        annot_ph.image(annotated,  caption="Detected",  use_container_width=True)
+        orig_ph.image(pil_img,   caption="Original", use_container_width=True)
+        annot_ph.image(annotated, caption="Detected", use_container_width=True)
 
-        # ── Stats ──
         stream_fps = reader.fps
+        fps_color  = "g" if stream_fps >= 10 else "y" if stream_fps >= 5 else "r"
         coll_chip  = (
             f'<span class="chip g">💾 {st.session_state.collect_count} saved</span>'
             if st.session_state.collect else '<span class="chip">💾 off</span>'
         )
         stat_ph.markdown(
             f'<span class="chip">📡 {act_cam["name"]}</span>'
-            f'<span class="chip g">{stream_fps:.1f} fps</span>'
+            f'<span class="chip {fps_color}">{stream_fps:.1f} fps</span>'
             f'<span class="chip">⚡ {infer_ms:.0f} ms</span>'
             f'<span class="chip g">🐾 {len(dets)}</span>'
-            f'<span class="chip">Frame {frame_idx}</span>'
-            f'{coll_chip}',
+            f'<span class="chip">#{frame_idx}</span>{coll_chip}',
             unsafe_allow_html=True,
         )
 
-        # ── Detection cards ──
+        # Detection cards with gradient confidence bars
         if dets:
             det_html = "".join(
                 f'<div class="det-row">'
                 f'<span class="lbl">🐾 {d["label"].upper()}</span>'
                 f'<span class="pct">{d["conf"]:.0%}</span><br>'
-                f'<span style="color:#1a3a60;font-size:.62rem">'
-                f'{"█" * int(d["conf"] * 10)}</span>'
+                f'<div class="conf-bar" style="width:{int(d["conf"]*100)}%"></div>'
                 f'</div>'
                 for d in sorted(dets, key=lambda x: -x["conf"])
             )
@@ -459,23 +595,22 @@ if st.session_state.running:
             det_html = (
                 '<div style="color:#2a4a7a;font-size:.78rem;padding:10px 0">'
                 'No animals detected<br>'
-                '<span style="font-size:.62rem">↓ lower confidence?</span>'
+                '<span style="font-size:.62rem;color:#1a3060">↓ try lowering confidence</span>'
                 '</div>'
             )
         det_ph.markdown(det_html, unsafe_allow_html=True)
         fps_ph.markdown(
-            f'<div style="font-size:.62rem;color:#1a3060;margin-top:8px">'
-            f'Stream: {stream_fps:.1f} fps<br>'
-            f'Infer:  {infer_ms:.0f} ms</div>',
+            f'<div style="font-size:.6rem;color:#1a3060;margin-top:8px;line-height:1.8">'
+            f'Stream {stream_fps:.1f} fps &nbsp;·&nbsp; Infer {infer_ms:.0f} ms</div>',
             unsafe_allow_html=True)
 
-        # ── Thumbnail strip ──
+        # Thumbnail strip
         for i, (cam, t_ph) in enumerate(zip(st.session_state.cameras, th_phs)):
             if not cam["enabled"]:
                 t_ph.markdown(
-                    '<div style="background:#0d1520;border:1px solid #1a2a4a;height:70px;'
-                    'border-radius:6px;display:flex;align-items:center;justify-content:center;'
-                    'color:#1a3060;font-size:.6rem">DISABLED</div>',
+                    '<div style="background:rgba(13,21,32,.6);border:1px solid rgba(77,159,255,.1);'
+                    'height:70px;border-radius:8px;display:flex;align-items:center;'
+                    'justify-content:center;color:#1a3060;font-size:.6rem;letter-spacing:2px">DISABLED</div>',
                     unsafe_allow_html=True)
                 continue
             r = readers.get(i)
@@ -484,7 +619,7 @@ if st.session_state.running:
                 if ok_t and f_t:
                     t_ph.image(f_t, use_container_width=True)
 
-        # ── Data collection ──
+        # Data collection
         if st.session_state.collect and frame_idx % every_n == 0:
             ts     = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
             tag    = act_cam["name"].replace(" ", "_")
@@ -511,13 +646,14 @@ if st.session_state.running:
         r.stop()
 
 else:
-    _IDLE = (
-        '<div style="background:#0d1520;border:1px dashed #1a2a4a;border-radius:8px;'
-        'height:180px;display:flex;align-items:center;justify-content:center;'
-        'color:#1a3060;font-size:.85rem;letter-spacing:3px">{}</div>'
-    )
-    orig_ph.markdown(_IDLE.format("ORIGINAL FEED"), unsafe_allow_html=True)
-    annot_ph.markdown(_IDLE.format("▶ PRESS START"), unsafe_allow_html=True)
+    # Cinematic scan-line idle placeholders
+    orig_ph.markdown(
+        '<div class="idle-box"><div class="idle-text">ORIGINAL FEED</div></div>',
+        unsafe_allow_html=True)
+    annot_ph.markdown(
+        '<div class="idle-box"><div class="idle-text">▶ PRESS START<br>'
+        '<span style="font-size:.55rem;letter-spacing:2px;opacity:.6">TO BEGIN DETECTION</span></div></div>',
+        unsafe_allow_html=True)
     det_ph.markdown(
         '<div style="color:#1a3060;font-size:.75rem;padding:8px">Waiting…</div>',
         unsafe_allow_html=True)
@@ -542,6 +678,6 @@ with st.expander("📁 Collected Data Preview", expanded=False):
 
 st.markdown("---")
 st.markdown(
-    '<div style="text-align:center;font-size:.62rem;color:#0d1a30;letter-spacing:3px">'
+    '<div style="text-align:center;font-size:.6rem;color:#0d1a30;letter-spacing:3px">'
     'MULTI-CAM LIVE · YOLO26 · MJPEG · PURE PYTHON · NO CV2'
     '</div>', unsafe_allow_html=True)
