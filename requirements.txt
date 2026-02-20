@@ -1,6 +1,5 @@
+opencv-python-headless==4.10.0.84
 ultralytics
 streamlit
-opencv-python-headless
 Pillow
-torch
-torchvision
+numpy
